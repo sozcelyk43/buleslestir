@@ -205,7 +205,23 @@ const Game = {
   flipCard(card) { if (this.state.lockBoard || card === this.state.firstCard || card.classList.contains('matched') || this.state.isPaused || card.classList.contains('center-card')) return; if (!this.state.isTimerStarted && !this.state.isPaused) this.startTimer(); card.classList.remove('hidden'); card.querySelector('.card-front').setAttribute('aria-hidden', 'false'); card.querySelector('.card-back').setAttribute('aria-hidden', 'true'); card.setAttribute('aria-label', `Kart: ${card.dataset.emoji}`); if (!this.state.firstCard) { this.state.firstCard = card; return; } this.state.secondCard = card; this.state.lockBoard = true; this.state.moves++; this.elements.movesDisplay.textContent = this.state.moves; this.checkForMatch(); },
   checkForMatch() { const isMatch = this.state.firstCard.dataset.emoji === this.state.secondCard.dataset.emoji; if (isMatch) { this.disableCards(); this.playSound(this.elements.matchSound); } else { this.unflipCards(); this.playSound(this.elements.mismatchSound); } },
   disableCards() { this.state.firstCard.classList.add('matched'); this.state.secondCard.classList.add('matched'); this.state.firstCard.setAttribute('aria-label', `Eşleşti: ${this.state.firstCard.dataset.emoji}`); this.state.secondCard.setAttribute('aria-label', `Eşleşti: ${this.state.secondCard.dataset.emoji}`); this.state.firstCard.setAttribute('tabindex', '-1'); this.state.secondCard.setAttribute('tabindex', '-1'); this.state.score += 10; this.elements.scoreDisplay.textContent = this.state.score; this.state.matchedPairs++; this.resetBoardState(); this.checkWin(); },
-  unflipCards() { setTimeout(() => { if (this.state.firstCard) { this.state.firstCard.classList.add('hidden'); this.state.firstCard.querySelector('.card-front').setAttribute('aria-hidden', 'true'); this.state.firstCard.querySelector('.card-back').setAttribute('aria-hidden', 'false'); this.state.firstCard.setAttribute('aria-label', 'Kapalı kart'); } if (this.state.secondCard) { this.state.secondCard.classList.add('hidden'); this.state.secondCard.querySelector('.card-front').setAttribute('aria-hidden', 'true'); this.state.secondCard.querySelector('.card-back').setAttribute('aria-hidden', 'false'); this.state.secondCard.setAttribute('aria-label', 'Kapalı kart'); } this.resetBoardState(); }, 800); },
+  unflipCards() {
+    setTimeout(() => {
+        if (this.state.firstCard) {
+            this.state.firstCard.classList.add('hidden');
+            this.state.firstCard.querySelector('.card-front').setAttribute('aria-hidden', 'true');
+            this.state.firstCard.querySelector('.card-back').setAttribute('aria-hidden', 'false');
+            this.state.firstCard.setAttribute('aria-label', 'Kapalı kart');
+        }
+        if (this.state.secondCard) {
+            this.state.secondCard.classList.add('hidden');
+            this.state.secondCard.querySelector('.card-front').setAttribute('aria-hidden', 'true');
+            this.state.secondCard.querySelector('.card-back').setAttribute('aria-hidden', 'false');
+            this.state.secondCard.setAttribute('aria-label', 'Kapalı kart');
+        }
+        this.resetBoardState();
+    }, 600); 
+},  
   resetBoardState() { this.state.firstCard = null; this.state.secondCard = null; this.state.lockBoard = false; },
   checkWin() { if (this.state.matchedPairs === this.state.pairCount) { clearInterval(this.state.timer); this.state.isTimerStarted = false; this.updateHighScore(); this.playSound(this.elements.winSound); setTimeout(() => { this.showWinModal(); if (typeof confetti === 'function') confetti({ particleCount: 150, spread: 90, origin: { y: 0.6 } }); }, 500); } },
   updateHighScore() { const currentHighScore = this.state.highScores[this.state.level] || 0; if (this.state.score > currentHighScore) { this.state.highScores[this.state.level] = this.state.score; localStorage.setItem('highScores', JSON.stringify(this.state.highScores)); this.updateHighScoreDisplay(); } },
