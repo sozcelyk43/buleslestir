@@ -93,8 +93,22 @@ const Game = {
     // Dinamik yeniden boyutlandırma için resize listener şimdilik kaldırıldı.
     // window.addEventListener('resize', () => this.handleResize());
   },
-  playSound(soundElement) {
-    if (soundElement && typeof soundElement.play === 'function') { soundElement.currentTime = 0; if (soundElement.readyState >= 2) { soundElement.play().catch(error => console.warn(`Ses oynatılamadı (${soundElement.id}):`, error)); } else { console.warn(`Ses dosyası hazır değil veya desteklenmiyor: ${soundElement.id}, src: ${soundElement.src}`); if (soundElement.error) { console.error(`Ses elementi hatası (${soundElement.id}): Kod ${soundElement.error.code}, Mesaj: ${soundElement.error.message}`); } } } else { console.warn('Geçersiz ses elementi:', soundElement); }
+ playSound(soundElement) {
+    if (soundElement && typeof soundElement.play === 'function') {
+      soundElement.currentTime = 0; // Sesi her seferinde baştan başlat
+      const playPromise = soundElement.play();
+
+      if (playPromise !== undefined) {
+        playPromise.catch(error => {
+          // Bu kısım, sesin yüklenememesi veya tarayıcının otomatik oynatmayı engellemesi
+          // gibi gerçek hataları yakalar ve konsola daha anlamlı bir mesaj yazar.
+          // Örneğin: "DOMException: The user hasn't interacted with the document first."
+          console.error(`Ses oynatılırken bir hata oluştu (${soundElement.id}):`, error);
+        });
+      }
+    } else {
+      console.warn('Geçersiz ses elementi:', soundElement);
+    }
   },
   parseLevelString(levelString) { const parts = levelString.split('x'); return { cols: parseInt(parts[0], 10), rows: parseInt(parts[1], 10) }; },
 
