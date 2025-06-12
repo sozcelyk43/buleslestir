@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Eşleştir Bakalım - Ozcelik Inc.</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<audio id="clickSound" src="sounds/click.mp3"></audio>
+<audio id="matchSound" src="sounds/match.mp3"></audio>
+<audio id="mismatchSound" src="sounds/mismatch.mp3"></audio>
+<audio id="winSound" src="sounds/win.mp3"></audio>
+
+<div id="home-container" class="container">
+  <div class="home-content">
+    <img src="logo.png" alt="Eşleştir Bakalım Logosu" class="logo">
+    <button id="theme-toggle">🌙</button>
+    <div class="rules">
+      <h2>Oyun Kuralları</h2>
+      <ul>
+        <li>Seviye seçerek oyuna başlayın.</li>
+        <li>Kartları çevirin ve aynı emojili çiftleri bulun.</li>
+        <li>Her eşleşme 10 puan kazandırır.</li>
+        <li>Az hamlede ve kısa sürede oyunu tamamlayın.</li>
+        <li>Duraklatma düğmesi ile oyunu durdurabilirsiniz.</li>
+        <li>En yüksek puanınız kaydedilir!</li>
+      </ul>
+    </div>
+    <div class="level-selection-home">
+      <button data-level="2x2">İlk Bakış (2x2)</button>
+      <button data-level="3x3">Hafif Hatırlama (3x3)</button>
+      <button data-level="4x4">Akılda Kal! (4x4)</button>
+      <button data-level="5x5">Zihin Egzersizi (5x5)</button>
+      <button data-level="4x8">Karışık Kutular (4x8)</button>
+      <button data-level="5x9">Gizli İpuçları (5x9)</button>
+      <button data-level="6x9">Hafıza Labirenti (6x9)</button>
+      <button data-level="8x10">Zihin Oyunu (8x10)</button>
+      <button data-level="9x11">Usta Eşleyici (9x11)</button>
+      <button data-level="9x12">Efsane Hafıza (9x12)</button>
+    </div>
+  </div>
+  <footer>2025 Ozcelik Inc.</footer>
+</div>
+
+<div id="game-container">
+  <div id="level-selection"></div> <div id="game-board"></div>
+  <div id="game-stats">
+    <div class="stats-row">
+      <p>🎮 Seviye: <span id="level"></span></p>
+      <p>👆 Hamle: <span id="moves">0</span></p>
+      <p>⏱️ Süre: <span id="time">0</span> saniye</p>
+    </div>
+    <div class="stats-row">
+      <p>⭐ Puan: <span id="score">0</span></p>
+      <p>🏆 En Yüksek Puan: <span id="high-score">0</span></p>
+    </div>
+  </div>
+  <div id="button-container">
+    <button id="pause-button">Duraklat</button>
+    <button id="restart-button">Yeniden Başlat</button>
+    <button class="back-button">Ana Sayfaya Dön</button>
+  </div>
+  <footer>2025 Ozcelik Inc.</footer>
+
+  <div id="start-modal">
+    <div class="modal-content">
+      <h2>Hazır mısınız?</h2>
+      <p id="start-modal-message"></p>
+      <button onclick="Game.startGameModal()">Tamam</button>
+    </div>
+  </div>
+
+  <div id="modal"> <div class="modal-content">
+    <h2>Tebrikler!</h2>
+    <p>Ozcelik Inc. Eşleştir Bakalım Oyununu kazandınız!</p>
+    <p>Seviye: <span id="modal-level"></span></p>
+    <p>Hamle: <span id="modal-moves"></span></p>
+    <p>Süre: <span id="modal-time"></span> saniye</p>
+    <p>Puan: <span id="modal-score"></span></p>
+    <p>En Yüksek Puan (Bu Seviye): <span id="modal-high-score"></span></p>
+    <button onclick="Game.closeModal()">Tamam</button>
+    <button class="next-level-btn" onclick="Game.nextLevel()">Sonraki Bölüm</button>
+  </div>
+  </div>
+
+  <div id="lose-modal"> <div class="modal-content">
+    <h2>Üzgünüz!</h2>
+    <p>Süre doldu! Oyunu kaybettiniz.</p>
+    <p>Seviye: <span id="lose-modal-level"></span></p>
+    <p>Hamle: <span id="lose-modal-moves"></span></p>
+    <p>Puan: <span id="lose-modal-score"></span></p>
+    <button onclick="Game.restartGame()">Yeniden Başlat</button>
+    <button onclick="Game.backToHome()">Ana Sayfaya Dön</button>
+  </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script src="script.js" defer></script>
+</body>
+</html>
