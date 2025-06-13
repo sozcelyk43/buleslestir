@@ -62,8 +62,7 @@ const Game = {
     loseModalLevel: document.getElementById('lose-modal-level'), loseModalMoves: document.getElementById('lose-modal-moves'),
     loseModalScore: document.getElementById('lose-modal-score'), startModal: document.getElementById('start-modal'),
     startModalMessage: document.getElementById('start-modal-message'), themeToggle: document.getElementById('theme-toggle'),
-    clickSound: document.getElementById('clickSound'), matchSound: document.getElementById('matchSound'),
-    mismatchSound: document.getElementById('mismatchSound'), winSound: document.getElementById('winSound'), nextLevelButton: document.querySelector('.next-level-btn'),
+    nextLevelButton: document.querySelector('.next-level-btn'),
     gameStats: document.getElementById('game-stats'), buttonContainer: document.getElementById('button-container')
   },
   state: {
@@ -93,23 +92,7 @@ const Game = {
     // Dinamik yeniden boyutlandırma için resize listener şimdilik kaldırıldı.
     // window.addEventListener('resize', () => this.handleResize());
   },
- playSound(soundElement) {
-    if (soundElement && typeof soundElement.play === 'function') {
-      soundElement.currentTime = 0; // Sesi her seferinde baştan başlat
-      const playPromise = soundElement.play();
-
-      if (playPromise !== undefined) {
-        playPromise.catch(error => {
-          // Bu kısım, sesin yüklenememesi veya tarayıcının otomatik oynatmayı engellemesi
-          // gibi gerçek hataları yakalar ve konsola daha anlamlı bir mesaj yazar.
-          // Örneğin: "DOMException: The user hasn't interacted with the document first."
-          console.error(`Ses oynatılırken bir hata oluştu (${soundElement.id}):`, error);
-        });
-      }
-    } else {
-      console.warn('Geçersiz ses elementi:', soundElement);
-    }
-  },
+ 
   parseLevelString(levelString) { const parts = levelString.split('x'); return { cols: parseInt(parts[0], 10), rows: parseInt(parts[1], 10) }; },
 
   startGame(selectedLevelKey) {
@@ -204,7 +187,7 @@ const Game = {
 
   flipCard(card) { if (this.state.lockBoard || card === this.state.firstCard || card.classList.contains('matched') || this.state.isPaused || card.classList.contains('center-card')) return; if (!this.state.isTimerStarted && !this.state.isPaused) this.startTimer(); card.classList.remove('hidden'); card.querySelector('.card-front').setAttribute('aria-hidden', 'false'); card.querySelector('.card-back').setAttribute('aria-hidden', 'true'); card.setAttribute('aria-label', `Kart: ${card.dataset.emoji}`); if (!this.state.firstCard) { this.state.firstCard = card; return; } this.state.secondCard = card; 
                   this.state.lockBoard = true; this.elements.board.classList.add('locked'); this.state.moves++; this.elements.movesDisplay.textContent = this.state.moves; this.checkForMatch(); },
-  checkForMatch() { const isMatch = this.state.firstCard.dataset.emoji === this.state.secondCard.dataset.emoji; if (isMatch) { this.disableCards(); this.playSound(this.elements.matchSound); } else { this.unflipCards(); this.playSound(this.elements.mismatchSound); } },
+  checkForMatch() { const isMatch = this.state.firstCard.dataset.emoji === this.state.secondCard.dataset.emoji; if (isMatch) { this.disableCards();  } else { this.unflipCards();  } },
   disableCards() { this.state.firstCard.classList.add('matched'); this.state.secondCard.classList.add('matched'); this.state.firstCard.setAttribute('aria-label', `Eşleşti: ${this.state.firstCard.dataset.emoji}`); this.state.secondCard.setAttribute('aria-label', `Eşleşti: ${this.state.secondCard.dataset.emoji}`); this.state.firstCard.setAttribute('tabindex', '-1'); this.state.secondCard.setAttribute('tabindex', '-1'); this.state.score += 10; this.elements.scoreDisplay.textContent = this.state.score; this.state.matchedPairs++; this.resetBoardState(); this.checkWin(); },
   unflipCards() {
     setTimeout(() => {
