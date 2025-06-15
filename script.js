@@ -189,23 +189,40 @@ const Game = {
                   this.state.lockBoard = true; this.elements.board.classList.add('locked'); this.state.moves++; this.elements.movesDisplay.textContent = this.state.moves; this.checkForMatch(); },
   checkForMatch() { const isMatch = this.state.firstCard.dataset.emoji === this.state.secondCard.dataset.emoji; if (isMatch) { this.disableCards();  } else { this.unflipCards();  } },
   disableCards() { this.state.firstCard.classList.add('matched'); this.state.secondCard.classList.add('matched'); this.state.firstCard.setAttribute('aria-label', `Eşleşti: ${this.state.firstCard.dataset.emoji}`); this.state.secondCard.setAttribute('aria-label', `Eşleşti: ${this.state.secondCard.dataset.emoji}`); this.state.firstCard.setAttribute('tabindex', '-1'); this.state.secondCard.setAttribute('tabindex', '-1'); this.state.score += 10; this.elements.scoreDisplay.textContent = this.state.score; this.state.matchedPairs++; this.resetBoardState(); this.checkWin(); },
-  unflipCards() {
-    setTimeout(() => {
-        if (this.state.firstCard) {
-            this.state.firstCard.classList.add('hidden');
-            this.state.firstCard.querySelector('.card-front').setAttribute('aria-hidden', 'true');
-            this.state.firstCard.querySelector('.card-back').setAttribute('aria-hidden', 'false');
-            this.state.firstCard.setAttribute('aria-label', 'Kapalı kart');
-        }
-        if (this.state.secondCard) {
-            this.state.secondCard.classList.add('hidden');
-            this.state.secondCard.querySelector('.card-front').setAttribute('aria-hidden', 'true');
-            this.state.secondCard.querySelector('.card-back').setAttribute('aria-hidden', 'false');
-            this.state.secondCard.setAttribute('aria-label', 'Kapalı kart');
-        }
-        this.resetBoardState();
-    }, 500); 
-},  
+unflipCards() {
+    // Kartların referanslarını alalım
+    const firstCard = this.state.firstCard;
+    const secondCard = this.state.secondCard;
+
+    // Eğer bir sebepten kartlar mevcut değilse, hemen durumu sıfırla
+    if (!firstCard || !secondCard) {
+      this.resetBoardState();
+      return;
+    }
+
+    // Kartın 'transform' (dönme) animasyonu bittiğinde tetiklenecek
+    // bir olay dinleyicisi ekliyoruz. { once: true } sayesinde bu dinleyici
+    // bir kez çalıştıktan sonra kendini otomatik olarak kaldırır.
+    firstCard.addEventListener('transitionend', (event) => {
+      // Sadece 'transform' animasyonu bittiğinde işlem yap
+      if (event.propertyName === 'transform') {
+        this.resetBoardState(); // Oyun alanının kilidini aç ve durumu sıfırla
+      }
+    }, { once: true });
+
+    // Kartların geri dönmesi için 'hidden' sınıfını ekleyerek animasyonu tetikle
+    firstCard.classList.add('hidden');
+    secondCard.classList.add('hidden');
+
+    // Erişilebilirlik (ARIA) etiketlerini güncelle
+    firstCard.querySelector('.card-front').setAttribute('aria-hidden', 'true');
+    firstCard.querySelector('.card-back').setAttribute('aria-hidden', 'false');
+    firstCard.setAttribute('aria-label', 'Kapalı kart');
+    
+    secondCard.querySelector('.card-front').setAttribute('aria-hidden', 'true');
+    secondCard.querySelector('.card-back').setAttribute('aria-hidden', 'false');
+    secondCard.setAttribute('aria-label', 'Kapalı kart');
+  },
   resetBoardState() { this.state.firstCard = null; this.state.secondCard = null; this.state.lockBoard = false; this.elements.board.classList.remove('locked'); },
   checkWin() { if (this.state.matchedPairs === this.state.pairCount) { clearInterval(this.state.timer); this.state.isTimerStarted = false; this.updateHighScore();  setTimeout(() => { this.showWinModal(); if (typeof confetti === 'function') confetti({ particleCount: 150, spread: 90, origin: { y: 0.6 } }); }, 500); } },
   updateHighScore() { const currentHighScore = this.state.highScores[this.state.level] || 0; if (this.state.score > currentHighScore) { this.state.highScores[this.state.level] = this.state.score; localStorage.setItem('highScores', JSON.stringify(this.state.highScores)); this.updateHighScoreDisplay(); } },
