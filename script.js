@@ -1,58 +1,51 @@
 const CONFIG = {
   emojiCategories: {
-    '2x2': ['🐶', '🐱'],
-    '3x3': ['🍎', '🍊', '🍋', '🍌'],
-    '4x4': ['🚗', '🚚', '🚜', '🚂', '🚁', '✈️', '🚤', '⛵'],
-    '5x5': ['🍔', '🍕', '🌭', '🍟', '🍝', '🥗', '🍣', '🍱', '🥟', '🍰', '🍩', '🍫'],
-    '8x4': ['🌟', '🔋', '🔥', '💧', '❄️', '⚡', '🌈', '☀️', '🌙', '⭐', '🌍', '🌐', '🛰️', '🪐', '💥', '🕒'], // 16 çift
-    '9x5': ['🎉', '🎊', '📚', '✏️', '📖', '🖌️', '📜', '📍', '📦', '🔧', '🔨', '⚙️', '🧲', '🔬', '🔭', '🧪', '🧬', '🩺', '💊', '💉', '🩹', '🩼'], // 22 çift
-    '9x6': ['⚽', '🏀', '🏈', '🎾', '🏐', '🏓', '🏸', '🥊', '⛳', '🎳', '🏒', '🥋', '🏊', '🏄', '🚴', '🤾', '🏋️', '⛸️', '🥇', '🥈', '🥉', '🏆', '🎯', '🎱', '🥏', '🎣', '🎽'], // 27 çift
-    '10x8': ['🎸', '🎹', '🎻', '🥁', '🎺', '🎷', '🎤', '🎧', '🎼', '🎵', '🎶', '📯', '🪗', '🪕', '🎙️', '🔔', '🖼️', '🎨', '🎭', '🎬', '🎪', '🎫', '🎟️', '🎮', '🕹️', '🧩', '🧸', '🪁', '🏹', '🪄', '♟️', '♠️', '♣️', '♥️', '♦️', '🎲', '🎰', '🗿', '💡'], // 40 çift
-    '11x9': ['👑', '🎩', '🧢', '👓', '🕶️', '👔', '👗', '👠', '🥾', '🧦', '🧤', '🧣', '👖', '👕', '👚', '👟', '🥿', '👢', '👞', '👡', '👙', '🩱', '🩲', '🩳', '🧥', '🦺', '🧱', '🧲', '🧳', '🧴', '🧵', '🧶', '🧷', '🧹', '🧺', '🧽', '🧼', '🪠', '🔑', '🚪', '🪑', '🛋', '🛏️', '🚽', '🚿', '🛁', '⚱️', '⚰️'], // 49 çift
-    '12x9': ['🌺', '🌸', '🏵️', '🌹', '🥀', '🌷', '🌱', '🌲', '🌳', '🌴', '🌵', '🌾', '🌿', '☘️', '🍀', '🍁', '🍂', '🍃', '🍄', '🌰', '🌼', '🌻', '🌍', '🌕', '🌖', '🌗', '🌘', '🌑', '🌒', '🌓', '🌔', '🌚', '🌝', '🌞', '⭐', '🌟', '🌠', '🌌', '🌤️', '🌥️', '🌦️', '☁️', '🌨️', '⛈️', '🌩️', '🌪️', '🌫️', '🌬️', '🌊', '💧', '💦', '☔', '☂️', '☃️'] // 54 çift
+    '4x2': ['🐶', '🐱', '🐭', '🐹'],
+    '6x2': ['🍎', '🍊', '🍋', '🍌', '🍇', '🍓'],
+    '6x3': ['🚗', '🚚', '🚜', '🚂', '🚁', '✈️', '🚤', '⛵', '🚑'],
+    '8x3': ['🍔', '🍕', '🌭', '🍟', '🍝', '🥗', '🍣', '🍱', '🥟', '🍰', '🍩', '🍫'],
+    '8x4': ['🌟', '🔥', '💧', '❄️', '⚡', '🌈', '☀️', '🌙', '⭐', '🌍', '🌐', '🛰️', '🪐', '💥', '🕒', '⚙️'],
+    '10x4': ['⚽', '🏀', '🏈', '🎾', '🏐', '🏓', '🏸', '🥊', '⛳', '🎳', '🏒', '🥋', '🏊', '🏄', '🚴', '🏋️', '🥇', '🥈', '🥉', '🏆'],
+    '10x5': ['🎸', '🎹', '🎻', '🥁', '🎺', '🎷', '🎤', '🎧', '🎼', '🎵', '🎶', '🖼️', '🎨', '🎭', '🎬', '🎪', '🎮', '🕹️', '🧩', '🧸', '🪁', '🪄', '♟️', '🎲', '🎰'],
+    '12x5': ['👑', '🎩', '🧢', '👓', '🕶️', '👔', '👗', '👠', '🥾', '🧤', '🧣', '👖', '👕', '👟', '👜', '💼', '☂️', '💄', '💍', '💎', '💡', '🔑', '🚪', '🛋', '🛏️', '⏰', '☎️', '📷', '📺', '💻'],
+    '12x6': ['🌵', '🌲', '🌳', '🌴', '🌱', '🌿', '☘️', '🍀', '🍁', '🍂', '🍃', '🍄', '🌸', '🌹', '🌻', '🌼', '🌍', '🌕', '🌖', '🌗', '🌘', '🌑', '🌒', '🌓', '🌔', '🌞', '⭐', '🌟', '🌠', '☁️', '❄️', '🔥', '💧', '🌊', '🌬️', '🌪️']
   },
   emojiTypes: {
-    '2x2': 'hayvan', '3x3': 'meyve', '4x4': 'taşıt', '5x5': 'yiyecek',
-    '8x4': 'çeşitli simge A',
-    '9x5': 'çeşitli simge B',
-    '9x6': 'spor',
-    '10x8': 'sanat & eğlence',
-    '11x9': 'giyim & eşya',
-    '12x9': 'doğa & hava'
+    '4x2': 'sevimli hayvanlar',
+    '6x2': 'taze meyveler',
+    '6x3': 'araçlar',
+    '8x3': 'lezzetli yiyecekler',
+    '8x4': 'simgeler',
+    '10x4': 'spor dalları',
+    '10x5': 'sanat ve eğlence',
+    '12x5': 'eşyalar',
+    '12x6': 'doğa elementleri'
   },
-  levels: { // Oyun adları ve boyutları güncellendi
-    '2x2': 'İlk Bakış (2x2)',
-    '3x3': 'Hafif Hatırlama (3x3)',
-    '4x4': 'Akılda Kal! (4x4)',
-    '5x5': 'Zihin Egzersizi (5x5)',
-    '8x4': 'Karışık Kutular (8x4)',
-    '9x5': 'Gizli İpuçları (9x5)',
-    '9x6': 'Hafıza Labirenti (9x6)',
-    '10x8': 'Zihin Oyunu (10x8)',
-    '11x9': 'Usta Eşleyici (11x9)',
-    '12x9': 'Efsane Hafıza (12x9)'
+  levels: {
+    '4x2': 'Başlangıç (4x2)',
+    '6x2': 'Isınma Turu (6x2)',
+    '6x3': 'Dikkat Testi (6x3)',
+    '8x3': 'Odaklanma (8x3)',
+    '8x4': 'Hafıza Gücü (8x4)',
+    '10x4': 'Gelişmiş Seviye (10x4)',
+    '10x5': 'Uzman Bakışı (10x5)',
+    '12x5': 'Usta Oyuncu (12x5)',
+    '12x6': 'Efsane Hafıza (12x6)'
   },
-  timeLimits: { // Süre limitleri yeni seviyelere göre ayarlandı
-    '2x2': 30, '3x3': 45, '4x4': 60, '5x5': 90,
-    '8x4': 110,  // 32 kart
-    '9x5': 140,  // 45 kart
-    '9x6': 165,  // 54 kart
-    '10x8': 240, // 80 kart
-    '11x9': 300, // 99 kart
-    '12x9': 330  // 108 kart
+  timeLimits: {
+    '4x2': 40, '6x2': 60, '6x3': 90, '8x3': 120, '8x4': 160,
+    '10x4': 200, '10x5': 250, '12x5': 300, '12x6': 360
   },
   cardSize: {
     minFontSize: 8,
     maxFontSize: 48,
     fontScale: {
-        default: 0.45,
-        medium: 0.60,
-        large: 0.70
-    }
+    default: 0.60, /* Kartın %80'i */
+    medium: 0.60,  /* Kartın %80'i */
+    large: 0.60    /* Kartın %80'i */
+}
   }
-};
-
-const Game = {
+};const Game = {
   elements: {
     homeContainer: document.getElementById('home-container'), gameContainer: document.getElementById('game-container'), board: document.getElementById('game-board'),
     movesDisplay: document.getElementById('moves'), timeDisplay: document.getElementById('time'), scoreDisplay: document.getElementById('score'),
@@ -123,6 +116,8 @@ const Game = {
 
     this.elements.board.style.gridTemplateColumns = `repeat(${this.state.cols}, 1fr)`;
     this.elements.board.style.gridTemplateRows = `repeat(${this.state.rows}, 1fr)`;
+    this.elements.board.style.aspectRatio = `${this.state.cols} / ${this.state.rows}`;
+
 
     const totalCards = this.state.rows * this.state.cols;
     const hasUnpairedCard = totalCards % 2 !== 0;
@@ -189,40 +184,40 @@ const Game = {
                   this.state.lockBoard = true; this.elements.board.classList.add('locked'); this.state.moves++; this.elements.movesDisplay.textContent = this.state.moves; this.checkForMatch(); },
   checkForMatch() { const isMatch = this.state.firstCard.dataset.emoji === this.state.secondCard.dataset.emoji; if (isMatch) { this.disableCards();  } else { this.unflipCards();  } },
   disableCards() { this.state.firstCard.classList.add('matched'); this.state.secondCard.classList.add('matched'); this.state.firstCard.setAttribute('aria-label', `Eşleşti: ${this.state.firstCard.dataset.emoji}`); this.state.secondCard.setAttribute('aria-label', `Eşleşti: ${this.state.secondCard.dataset.emoji}`); this.state.firstCard.setAttribute('tabindex', '-1'); this.state.secondCard.setAttribute('tabindex', '-1'); this.state.score += 10; this.elements.scoreDisplay.textContent = this.state.score; this.state.matchedPairs++; this.resetBoardState(); this.checkWin(); },
+
+
+
 unflipCards() {
-    // Kartların referanslarını alalım
-    const firstCard = this.state.firstCard;
-    const secondCard = this.state.secondCard;
-
-    // Eğer bir sebepten kartlar mevcut değilse, hemen durumu sıfırla
-    if (!firstCard || !secondCard) {
-      this.resetBoardState();
-      return;
-    }
-
-    // Kartın 'transform' (dönme) animasyonu bittiğinde tetiklenecek
-    // bir olay dinleyicisi ekliyoruz. { once: true } sayesinde bu dinleyici
-    // bir kez çalıştıktan sonra kendini otomatik olarak kaldırır.
-    firstCard.addEventListener('transitionend', (event) => {
-      // Sadece 'transform' animasyonu bittiğinde işlem yap
-      if (event.propertyName === 'transform') {
-        this.resetBoardState(); // Oyun alanının kilidini aç ve durumu sıfırla
+    // Bu fonksiyon, iki kart eşleşmediğinde çağrılır.
+    // Oyun alanı kilitli durumdayken 1 saniye bekler.
+    setTimeout(() => {
+      // 1 saniye sonunda, kartların hala mevcut olduğunu kontrol eder.
+      if (this.state.firstCard) {
+        // 'hidden' sınıfını ekleyerek kartın kapanma animasyonunu tetikler.
+        this.state.firstCard.classList.add('hidden');
+        this.state.firstCard.querySelector('.card-front').setAttribute('aria-hidden', 'true');
+        this.state.firstCard.querySelector('.card-back').setAttribute('aria-hidden', 'false');
+        this.state.firstCard.setAttribute('aria-label', 'Kapalı kart');
       }
-    }, { once: true });
+      if (this.state.secondCard) {
+        this.state.secondCard.classList.add('hidden');
+        this.state.secondCard.querySelector('.card-front').setAttribute('aria-hidden', 'true');
+        this.state.secondCard.querySelector('.card-back').setAttribute('aria-hidden', 'false');
+        this.state.secondCard.setAttribute('aria-label', 'Kapalı kart');
+      }
 
-    // Kartların geri dönmesi için 'hidden' sınıfını ekleyerek animasyonu tetikle
-    firstCard.classList.add('hidden');
-    secondCard.classList.add('hidden');
-
-    // Erişilebilirlik (ARIA) etiketlerini güncelle
-    firstCard.querySelector('.card-front').setAttribute('aria-hidden', 'true');
-    firstCard.querySelector('.card-back').setAttribute('aria-hidden', 'false');
-    firstCard.setAttribute('aria-label', 'Kapalı kart');
-    
-    secondCard.querySelector('.card-front').setAttribute('aria-hidden', 'true');
-    secondCard.querySelector('.card-back').setAttribute('aria-hidden', 'false');
-    secondCard.setAttribute('aria-label', 'Kapalı kart');
+      // Kartlar kapandıktan sonra, bir sonraki hamle için oyun durumunu sıfırlar
+      // ve oyun alanının kilidini açar.
+      this.resetBoardState();
+    }, 1000); // 1000 milisaniye = 1 saniye bekleme süresi
   },
+
+
+
+
+
+
+
   resetBoardState() { this.state.firstCard = null; this.state.secondCard = null; this.state.lockBoard = false; this.elements.board.classList.remove('locked'); },
   checkWin() { if (this.state.matchedPairs === this.state.pairCount) { clearInterval(this.state.timer); this.state.isTimerStarted = false; this.updateHighScore();  setTimeout(() => { this.showWinModal(); if (typeof confetti === 'function') confetti({ particleCount: 150, spread: 90, origin: { y: 0.6 } }); }, 500); } },
   updateHighScore() { const currentHighScore = this.state.highScores[this.state.level] || 0; if (this.state.score > currentHighScore) { this.state.highScores[this.state.level] = this.state.score; localStorage.setItem('highScores', JSON.stringify(this.state.highScores)); this.updateHighScoreDisplay(); } },
