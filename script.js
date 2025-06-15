@@ -176,8 +176,8 @@ const Game = {
       const card = document.createElement('div'); card.classList.add('card'); const cardDataItem = finalCardData[i];
       if (!cardDataItem || cardDataItem.type === 'empty') { card.classList.add('center-card'); card.removeAttribute('role'); card.removeAttribute('tabindex'); card.setAttribute('aria-hidden', 'true'); }
       else if (cardDataItem.type === 'emoji') { card.classList.add('hidden'); card.dataset.emoji = cardDataItem.value; card.setAttribute('role', 'button'); card.setAttribute('tabindex', '0'); card.setAttribute('aria-label', 'Kapalı kart');
-        const flipHandler = () => { if (!card.classList.contains('center-card')) {  this.flipCard(card); } };
-        card.addEventListener('click', flipHandler); let lastTouchTime = 0; card.addEventListener('touchstart', (e) => { const currentTime = new Date().getTime(); const timeSinceLastTouch = currentTime - lastTouchTime; if (timeSinceLastTouch > 300) { e.preventDefault(); flipHandler(); lastTouchTime = currentTime; } }, { passive: false }); card.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flipHandler(); } });
+        const flipHandler = () => { if (!card.classList.contains('center-card')) { this.flipCard(card); } };
+        card.addEventListener('mousedown', flipHandler); let lastTouchTime = 0; card.addEventListener('touchstart', (e) => { const currentTime = new Date().getTime(); const timeSinceLastTouch = currentTime - lastTouchTime; if (timeSinceLastTouch > 300) { e.preventDefault(); flipHandler(); lastTouchTime = currentTime; } }, { passive: false }); card.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flipHandler(); } });
       }
       const cardBack = document.createElement('div'); cardBack.classList.add('card-back'); cardBack.setAttribute('aria-hidden', 'true'); card.appendChild(cardBack);
       const cardFront = document.createElement('div'); cardFront.classList.add('card-front'); cardFront.style.fontSize = `${fontSize}px`; cardFront.textContent = card.dataset.emoji || ''; cardFront.setAttribute('aria-hidden', 'true'); card.appendChild(cardFront);
