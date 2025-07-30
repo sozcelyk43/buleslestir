@@ -4,96 +4,123 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Eşleştir Bakalım - Ozcelik Inc.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <div id="toast-container"></div>
+
+  <audio id="clickSound" src="sounds/click.mp3"></audio>
+  <audio id="matchSound" src="sounds/match.mp3"></audio>
+  <audio id="mismatchSound"src="sounds/mismatch.mp3"></audio>
+  <audio id="winSound" src="sounds/win.mp3"></audio>
 
   <div id="home-container" class="container">
-  <div class="home-content">
-    <img src="logo.png" alt="Eşleştir Bakalım Logosu" class="logo">
-    <button id="theme-toggle">🌙</button>
-    <div class="rules">
-      <h2>Oyun Kuralları</h2>
-      <ul>
-        <li>Seviye seçerek oyuna başlayın.</li>
-        <li>Kartları çevirin ve aynı emojili çiftleri bulun.</li>
-        <li>Her eşleşme 10 puan kazandırır.</li>
-        <li>Az hamlede ve kısa sürede oyunu tamamlayın.</li>
-        <li>Duraklatma düğmesi ile oyunu durdurabilirsiniz.</li>
-        <li>En yüksek puanınız kaydedilir!</li>
-      </ul>
+    <div class="home-content">
+      <img src="logo.png" alt="Eşleştir Bakalım Logosu" class="logo">
+      <button id="theme-toggle">🌙</button>
+      <button id="rules-button" aria-label="Nasıl Oynanır?">?</button>
+
+      <div class="level-selection-new">
+          <button data-level="2x2"><span class="button-text">İlk Bakış</span><span class="button-icon">🐶</span></button>
+          <button data-level="3x3"><span class="button-text">Hafif Hatırlama</span><span class="button-icon">🍎</span></button>
+          <button data-level="4x4"><span class="button-text">Akılda Kal!</span><span class="button-icon">🚗</span></button>
+          <button data-level="5x5"><span class="button-text">Zihin Egzersizi</span><span class="button-icon">🍔</span></button>
+          <button data-level="4x8"><span class="button-text">Karışık Kutular</span><span class="button-icon">🌟</span></button>
+          <button data-level="5x9"><span class="button-text">Gizli İpuçları</span><span class="button-icon">📚</span></button>
+          <button data-level="6x9"><span class="button-text">Hafıza Labirenti</span><span class="button-icon">⚽</span></button>
+          <button data-level="8x10"><span class="button-text">Zihin Oyunu</span><span class="button-icon">🎨</span></button>
+          <button data-level="9x11"><span class="button-text">Usta Eşleyici</span><span class="button-icon">👑</span></button>
+          <button data-level="9x12"><span class="button-text">Efsane Hafıza</span><span class="button-icon">🌳</span></button>
+      </div>
     </div>
-
-<div class="level-selection-home">
-  <button data-level="4x2">Başlangıç (4x2)</button>
-  <button data-level="6x2">Isınma Turu (6x2)</button>
-  <button data-level="6x3">Dikkat Testi (6x3)</button>
-  <button data-level="8x3">Odaklanma (8x3)</button>
-  <button data-level="8x4">Hafıza Gücü (8x4)</button>
-  <button data-level="10x4">Gelişmiş Seviye (10x4)</button>
-  <button data-level="10x5">Uzman Bakışı (10x5)</button>
-  <button data-level="12x5">Usta Oyuncu (12x5)</button>
-  <button data-level="12x6">Efsane Hafıza (12x6)</button>
-</div>
-
+    <button id="reset-progress-button" class="reset-button">Tüm İlerlemeyi Sıfırla</button>
+    <footer>2025 Ozcelik Inc.</footer>
   </div>
-  <footer>2025 Ozcelik Inc.</footer>
-</div>
 
-<div id="game-container">
-  <div id="level-selection"></div> <div id="game-board"></div>
-  <div id="game-stats">
-    <div class="stats-row">
-      <p>🎮 Seviye: <span id="level"></span></p>
-      <p>👆 Hamle: <span id="moves">0</span></p>
-      <p>⏱️ Süre: <span id="time">0</span> saniye</p>
+  <div id="game-container" class="container hidden-view">
+    <div id="game-stats">
+        <div class="stats-row">
+          <p>🎮 Seviye: <span id="level"></span></p>
+          <p>👆 Hamle: <span id="moves">0</span></p>
+        </div>
+        <div class="stats-row">
+          <p>⭐ Puan: <span id="score">0</span></p>
+          <p class="timer-box">⏱️ Süre: <span id="time">0</span>s</p>
+          <p>🏆 En Yüksek Puan: <span id="high-score">0</span></p>
+        </div>
     </div>
-    <div class="stats-row">
-      <p>⭐ Puan: <span id="score">0</span></p>
-      <p>🏆 En Yüksek Puan: <span id="high-score">0</span></p>
+    <div id="game-board"></div>
+    <div id="button-container">
+      <button id="pause-button">Duraklat</button>
+      <button id="restart-button">Yeniden Başlat</button>
+      <button id="hint-button">💡 İpucu (-15 Puan)</button>
+      <button class="back-button">Ana Sayfaya Dön</button>
     </div>
+    <footer>2025 Ozcelik Inc.</footer>
   </div>
-  <div id="button-container">
-    <button id="pause-button">Duraklat</button>
-    <button id="restart-button">Yeniden Başlat</button>
-    <button class="back-button">Ana Sayfaya Dön</button>
-  </div>
-  <footer>2025 Ozcelik Inc.</footer>
 
-  <div id="start-modal">
+  <div id="start-modal" class="modal-overlay">
     <div class="modal-content">
       <h2>Hazır mısınız?</h2>
       <p id="start-modal-message"></p>
-      <button onclick="Game.startGameModal()">Tamam</button>
+      <button>Tamam</button>
     </div>
   </div>
 
-  <div id="modal"> <div class="modal-content">
-    <h2>Tebrikler!</h2>
-    <p>Ozcelik Inc. Eşleştir Bakalım Oyununu kazandınız!</p>
-    <p>Seviye: <span id="modal-level"></span></p>
-    <p>Hamle: <span id="modal-moves"></span></p>
-    <p>Süre: <span id="modal-time"></span> saniye</p>
-    <p>Puan: <span id="modal-score"></span></p>
-    <p>En Yüksek Puan (Bu Seviye): <span id="modal-high-score"></span></p>
-    <button onclick="Game.closeModal()">Tamam</button>
-    <button class="next-level-btn" onclick="Game.nextLevel()">Sonraki Bölüm</button>
-  </div>
+  <div id="modal" class="modal-overlay">
+    <div class="modal-content">
+      <h2>Tebrikler!</h2>
+      <p>Oyunu kazandınız!</p>
+      <p>Seviye: <span id="modal-level"></span></p>
+      <p>Hamle: <span id="modal-moves"></span></p>
+      <p>Süre: <span id="modal-time"></span> saniye</p>
+      <p>Puan: <span id="modal-score"></span></p>
+      <p>Bonus Puanlar: <span id="modal-bonus-score"></span></p>
+      <p>🏆 Toplam Puan: <span id="modal-total-score"></span></p>
+      <p>En Yüksek Puan: <span id="modal-high-score"></span></p>
+      <button class="close-modal-btn">Tamam</button>
+      <button class="next-level-btn">Sonraki Bölüm</button>
+    </div>
   </div>
 
-  <div id="lose-modal"> <div class="modal-content">
-    <h2>Üzgünüz!</h2>
-    <p>Süre doldu! Oyunu kaybettiniz.</p>
-    <p>Seviye: <span id="lose-modal-level"></span></p>
-    <p>Hamle: <span id="lose-modal-moves"></span></p>
-    <p>Puan: <span id="lose-modal-score"></span></p>
-    <button onclick="Game.restartGame()">Yeniden Başlat</button>
-    <button onclick="Game.backToHome()">Ana Sayfaya Dön</button>
+  <div id="lose-modal" class="modal-overlay">
+    <div class="modal-content">
+      <h2>Üzgünüz!</h2>
+      <p>Süre doldu! Oyunu kaybettiniz.</p>
+      <p>Seviye: <span id="lose-modal-level"></span></p>
+      <p>Hamle: <span id="lose-modal-moves"></span></p>
+      <p>Puan: <span id="lose-modal-score"></span></p>
+      <button class="restart-game-btn">Yeniden Başlat</button>
+      <button class="back-to-home-btn">Ana Sayfaya Dön</button>
+    </div>
   </div>
-  </div>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-<script src="script.js" defer></script>
+  <div id="rules-modal" class="modal-overlay">
+      <div class="modal-content">
+          <h2>Oyun Kuralları</h2>
+          <ul>
+              <li><strong>Temel Amaç:</strong> Süre dolmadan önce tüm kart çiftlerini eşleştirin.</li>
+              <li><strong>Puanlama:</strong> Her doğru eşleşme <strong>+10 puan</strong> kazandırır.</li>
+              <li><strong>Seri Bonusu:</strong> Art arda yaptığınız her doğru eşleşme için ekstra bonus puanlar kazanırsınız! (Örn: 2. seri +5, 3. seri +10...)</li>
+              <li><strong>Hata Cezası:</strong> Her hatalı eşleştirme denemesi <strong>-2 puan</strong> kaybettirir.</li>
+              <li><strong>Oyun Sonu Bonusu:</strong> Oyunu bitirdiğinizde kalan süre ve hamle sayınıza göre ekstra bonus puanlar alırsınız.</li>
+              <li><strong>Güçlendirmeler (Power-ups):</strong> Oyun sırasında özel kart çiftleri bulabilirsiniz:
+                  <ul>
+                      <li>👁️ <strong>Göz:</strong> Tüm kartları kısa bir süreliğine açar.</li>
+                      <li>⏱️ <strong>Zaman:</strong> Sürenize ekstra saniyeler ekler.</li>
+                      <li>🔄 <strong>Karıştırıcı:</strong> Kalan kapalı kartların yerlerini değiştirir.</li>
+                  </ul>
+              </li>
+              <li><strong>İpucu Sistemi:</strong> Zorlandığınızda <strong>💡 İpucu</strong> butonunu kullanarak -15 puan karşılığında bir çiftin yerini öğrenebilirsiniz.</li>
+          </ul>
+          <button>Anladım!</button>
+      </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="script.js" defer></script>
 </body>
 </html>
